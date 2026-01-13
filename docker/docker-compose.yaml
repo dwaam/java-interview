@@ -1,0 +1,23 @@
+services:
+  interview-db:
+    container_name: interview-db
+    image: postgres:17
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/db.sql
+      - interview-db-data:/data/postgres
+    ports:
+      - "15535:5432"
+    networks:
+      - interview-net
+    restart: unless-stopped
+
+volumes:
+  interview-db-data:
+
+networks:
+  interview-net:
+    driver: bridge
